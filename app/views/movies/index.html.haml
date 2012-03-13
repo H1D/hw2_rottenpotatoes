@@ -13,9 +13,9 @@
   %table#movies
     %thead
       %tr
-        %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title',:ratings => @checked_ratings})
+        %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title',:ratings => @checked_ratings}), {:id => :title_header}
         %th Rating
-        %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date',:ratings => @checked_ratings})
+        %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date',:ratings => @checked_ratings}), {:id => :release_date_header}
         %th More Info
     %tbody
       - @movies.each do |movie|
