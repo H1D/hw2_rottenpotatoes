@@ -2,7 +2,7 @@
 %h1 All Movies
 
 = form_tag movies_path, :method => :get do
-  %input{:type=>'hidden',:value => @hilite,:name => :order}
+  = hidden_field_tag :order, @hilite
   Include:
   - @all_ratings.each do |rating|
     %label
@@ -13,9 +13,9 @@
   %table#movies
     %thead
       %tr
-        %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title'})
+        %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title',:ratings => @checked_ratings})
         %th Rating
-        %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date'})
+        %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date',:ratings => @checked_ratings})
         %th More Info
     %tbody
       - @movies.each do |movie|
