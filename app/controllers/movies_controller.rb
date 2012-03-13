@@ -8,17 +8,34 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.select(:rating).collect {|m| m.rating}.uniq
-    @hilite = params[:order]
-    if params.include?:ratings
+    do_redirect = false
+    
+    if params.include? :order
+      @hilite = params[:order]
+    elsif session.include? :movie_order
+      do_redirect = true
+      @hilite = session[:movie_order]
+    end
+
+    if params.include? :ratings
       @checked_ratings = params[:ratings]
+    elsif session.include? :movie_checked_ratings
+      do_redirect = true
+      @checked_ratings = session[:movie_checked_ratings]
     elsif not defined? @checked_ratings
       @checked_ratings = {}
     end
 
-    @movies = Movie.order(params[:order])
-
+    @movies = Movie.order(@hilite)
     if @checked_ratings.length > 0
       @movies = @movies.where(:rating => @checked_ratings.keys)
+    end
+
+    session[:movie_order] = @hilite
+    session[:movie_checked_ratings] = @checked_ratings
+
+    if do_redirect == true
+      redirect_to movies_path({:order => @hilite,:ratings => @checked_ratings})
     end
   end
 
