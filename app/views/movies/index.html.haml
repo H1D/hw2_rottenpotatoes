@@ -2,6 +2,7 @@
 %h1 All Movies
 
 = form_tag movies_path, :method => :get do
+  %input{:type=>'hidden',:value => @hilite,:name => :order}
   Include:
   - @all_ratings.each do |rating|
     %label
@@ -9,19 +10,19 @@
       = check_box_tag("ratings[#{rating}]",1,@checked_ratings.include?(rating))
   = submit_tag 'Refresh'
 
-%table#movies
-  %thead
-    %tr
-      %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title'})
-      %th Rating
-      %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date'})
-      %th More Info
-  %tbody
-    - @movies.each do |movie|
+  %table#movies
+    %thead
       %tr
-        %td= movie.title 
-        %td= movie.rating
-        %td= movie.release_date
-        %td= link_to "More about #{movie.title}", movie_path(movie)
+        %th{:class => [@hilite == 'title' && 'hilite']}= link_to 'Movie Title', movies_path({:order => 'title'})
+        %th Rating
+        %th{:class => [@hilite == 'release_date' && 'hilite']}= link_to 'Release date', movies_path({:order => 'release_date'})
+        %th More Info
+    %tbody
+      - @movies.each do |movie|
+        %tr
+          %td= movie.title
+          %td= movie.rating
+          %td= movie.release_date
+          %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path

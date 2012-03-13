@@ -9,8 +9,17 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = Movie.select(:rating).collect {|m| m.rating}.uniq
     @hilite = params[:order]
-    @checked_ratings = params[:ratings].keys
-    @movies = Movie.order(params[:order]).where(:rating => @checked_ratings)
+    if params.include?:ratings
+      @checked_ratings = params[:ratings]
+    elsif not defined? @checked_ratings
+      @checked_ratings = {}
+    end
+
+    @movies = Movie.order(params[:order])
+
+    if @checked_ratings.length > 0
+      @movies = @movies.where(:rating => @checked_ratings.keys)
+    end
   end
 
   def new
