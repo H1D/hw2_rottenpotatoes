@@ -7,8 +7,8 @@
   - @all_ratings.each do |rating|
     %label
       = rating
-      = check_box_tag("ratings[#{rating}]",1,@checked_ratings.include?(rating))
-  = submit_tag 'Refresh'
+      = check_box_tag "ratings[#{rating}]", 1, @checked_ratings.include?(rating), {:id => "ratings_#{rating}"}
+  = submit_tag 'Refresh', {:id=>:ratings_submit}
 
   %table#movies
     %thead
